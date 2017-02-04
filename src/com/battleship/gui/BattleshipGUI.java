@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -32,6 +33,7 @@ public class BattleshipGUI {
 	private JPanel panelPlayerGrid;
 	private JPanel panelEnemyGrid;
 	private JTextField textIP;
+	private JRadioButton rdbtnYourTurn;
 
 	private BattleshipHelper bsHelper;
 	private TCPConnectionHelper tcpHelper;
@@ -81,6 +83,15 @@ public class BattleshipGUI {
 		frmBattleship.setBounds(100, 100, 797, 535);
 		frmBattleship.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBattleship.getContentPane().setLayout(null);
+
+		rdbtnYourTurn = new JRadioButton("Your Turn");
+		rdbtnYourTurn.setName("rdbtnYourTurn");
+		rdbtnYourTurn.setToolTipText("Checked when it is your turn.");
+		rdbtnYourTurn.setHorizontalAlignment(SwingConstants.CENTER);
+		rdbtnYourTurn.setBounds(602, 63, 100, 20);
+		rdbtnYourTurn.setForeground(Color.DARK_GRAY);
+		rdbtnYourTurn.setEnabled(false);
+		frmBattleship.getContentPane().add(rdbtnYourTurn);
 
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -3011,9 +3022,11 @@ public class BattleshipGUI {
 					}
 					if (tempIP.equals("")) {
 						isMyTurn = true;
+						rdbtnYourTurn.setSelected(isMyTurn);
 						JOptionPane.showMessageDialog(frmBattleship, "You start first.");
 					} else {
 						isMyTurn = false;
+						rdbtnYourTurn.setSelected(isMyTurn);
 						ReceiveAttackInfo();
 						JOptionPane.showMessageDialog(frmBattleship, "Opponent starts first.");
 					}
@@ -3169,6 +3182,7 @@ public class BattleshipGUI {
 		frmBattleship.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		ResetButtonColor(panelBomb);
 		isMyTurn = false;
+		rdbtnYourTurn.setSelected(isMyTurn);
 		activeBombName = "";
 		activeBombRadius = 0;
 		activeBombInflictsDamage = false;
@@ -3259,6 +3273,7 @@ public class BattleshipGUI {
 			tcpHelper.CloseSocket();
 		} else {
 			isMyTurn = true;
+			rdbtnYourTurn.setSelected(isMyTurn);
 		}
 	}
 }
